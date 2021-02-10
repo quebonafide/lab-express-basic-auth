@@ -28,28 +28,32 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
-const session = require('express-session');
+// const session = require('express-session');
 
-const MongoStore = require('connect-mongo')(session)
+// const MongoStore = require('connect-mongo')(session)
 
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        cookie: { maxAge: 1000 * 60 * 60 * 24 },
-        saveUninitialized: false,
-        //Forces the session to be saved back to the session store, 
-        // even if the session was never modified during the request.
-        resave: true,
-        store: new MongoStore({
-            mongooseConnection: mongoose.connection
-        })
-    })
-)
+// app.use(
+//     session({
+//         secret: process.env.SESSION_SECRET,
+//         cookie: { maxAge: 1000 * 60 * 60 * 24 },
+//         saveUninitialized: false,
+//         //Forces the session to be saved back to the session store, 
+//         // even if the session was never modified during the request.
+//         resave: true,
+//         store: new MongoStore({
+//             mongooseConnection: mongoose.connection
+//         })
+//     })
+// )
 
 // default value for title local
 app.locals.title = 'Express - Generated with IronGenerator';
 
 const index = require('./routes/index.routes');
 app.use('/', index);
+
+const auth = require('./routes/auth');
+app.use('/', auth);
+
 
 module.exports = app;
